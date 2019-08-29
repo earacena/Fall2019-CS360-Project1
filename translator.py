@@ -5,6 +5,9 @@
 # Description: Translator removes all white space and excess characters like
 #              newlines, then parses based on syntax
 
+# regular expressions
+import re
+
 def read_source_code(filename):
     source_code = []
     with open("example.cpp") as file:
@@ -13,6 +16,8 @@ def read_source_code(filename):
     return source_code
 
 def clean_up(source_code):
+
+    
     # Turns all newline chars into whitespace or erases them from string
     source_code = [elem.strip('\n') for elem in source_code]
 
@@ -54,19 +59,46 @@ def parse_source_into_functions(source_code):
         
     return function_split
 
-# def parse_functions_into_asm(parsed_func_list):
-#     for function in parsed_func_list:
-#         for keyword in function:
-            
+# If the parenthesis after function name are empty, there is no argument
+
+def check_for_arguments(parsed_func_list):
+    arg_flag_list = []
+    present = False
+    for function in parsed_func_list:
+        arg_flag_list.append( function[0].split("(")[1] != ')' )
+    return arg_flag_list
+        
+def parse_functions_into_asm(parsed_func_list, arg_flag_list):
+    asm = []
+    for index, function in enumerate(parsed_func_list):
+        function_name = function[0].split("(")[0]
+        asm.append(function_name + ":")
+        for keyword in function:
+            print(keyword)
+            if keyword == '{' and function_name == 'main':
+                asm.append('\tpush\trbp')
+                asm.append('\tmov\trbp, rsp')
+            else:
+                asm.append('not processed')
+    return asm
+
+def print_asm(asm):
+    for instruction in asm:
+        print(instruction)
 
 
 def main():
     filename = "example.cpp"
     source = read_source_code(filename)
+    print(source)
     source = clean_up(source)
+    print(source)
     parsed_func_list = parse_source_into_functions(source)
     print(parsed_func_list)
-    
+    arg_flag_list = check_for_arguments(parsed_func_list)
+    print(arg_flag_list)
+    asm = parse_functions_into_asm(parsed_func_list, arg_flag_list)
+    print_asm(asm)
     
 if __name__ == "__main__":
     main()
