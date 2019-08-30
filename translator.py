@@ -67,17 +67,35 @@ def check_for_arguments(parsed_func_list):
     for function in parsed_func_list:
         arg_flag_list.append( function[0].split("(")[1] != ')' )
     return arg_flag_list
-        
+
+def calculate_reserved_bytes(function):
+    counter = 0
+    for keyword in function:
+        if keyword == 'int' or 'int' in keyword:
+            counter = counter + 1
+
+    reserve = 20
+    while (counter * 4)> reserve:
+        reserve = reserve + 16
+
+    return reserve
+
 def parse_functions_into_asm(parsed_func_list, arg_flag_list):
     asm = []
+    # Number of bytes to reserver, once 20 bytes reached, keep adding 16
     for index, function in enumerate(parsed_func_list):
+        reserve = calculate_reserved_bytes(function)
         function_name = function[0].split("(")[0]
+        function[0] = 'name'
         asm.append(function_name + ":")
         for keyword in function:
-            print(keyword)
-            if keyword == '{' and function_name == 'main':
+            if 'name' in keyword:
+                continue
+            if keyword == '{':
                 asm.append('\tpush\trbp')
                 asm.append('\tmov\trbp, rsp')
+                if arg_flag_list:
+                    asm.append("\tmov\tDWORD PTR [rbp-" + str(reserve) + "], edi")
             else:
                 asm.append('not processed')
     return asm
