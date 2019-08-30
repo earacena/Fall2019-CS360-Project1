@@ -83,24 +83,32 @@ def calculate_reserved_bytes(function):
 def parse_functions_into_asm(parsed_func_list, arg_flag_list):
     asm = []
     # Number of bytes to reserver, once 20 bytes reached, keep adding 16
-    for index, function in enumerate(parsed_func_list):
+    for index1, function in enumerate(parsed_func_list):
         reserve = calculate_reserved_bytes(function)
         function_name = function[0].split("(")[0]
         function[0] = 'name'
         asm.append(function_name + ":")
-        for keyword in function:
+        for index2, keyword in enumerate(function):
             if 'name' in keyword:
                 continue
             if keyword == '{':
                 asm.append('\tpush\trbp')
                 asm.append('\tmov\trbp, rsp')
-                if arg_flag_list:
-                    asm.append("\tmov\tDWORD PTR [rbp-" + str(reserve) + "], edi")
+                if arg_flag_list[index1]:
+                    asm.append("\tmov\tDWORD PTR [rbp-" + str(reserve) +
+                               "], edi")
+            if keyword == 'return':
+                return_value = function[index2+1].strip(";")
+                asm.append('\tmov\teax, ' + return_value)
+            if keyword == '}':
+                asm.append('\tpop\trbp')
+                asm.append('\tret')
             else:
-                asm.append('not processed')
+                continue
     return asm
 
 def print_asm(asm):
+    print('\n')
     for instruction in asm:
         print(instruction)
 
