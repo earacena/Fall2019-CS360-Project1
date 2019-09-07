@@ -124,11 +124,8 @@ def main():
     source = clean_up(source)
     print(source)
 
-    source = parse_source_into_functions(source)
-    print(source[0].type)
-    print(source[0].name)
-    print(source[0].args)
-    print(source[0].statements)
+    function_list = parse_source_into_functions(source)
+    print_function_list(function_list)
 
 if __name__ == "__main__":
     main()
