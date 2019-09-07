@@ -1,12 +1,9 @@
-# Project:      Translate source code to assembly (C++ to x86_64)
-# Author:       Emanuel Aracena
-# Date created: August 28, 2019
-# Name of file: translator.py (emanuel_aracena_translator.py)
-# Description: Translator removes all white space and excess characters like
-#              newlines, then parses based on syntax
-
-# regular expressions
-import re
+# Project:              Translate source code to assembly (C++ to x86_64)
+# Author(s)/Group:      Emanuel Aracena
+# Date created:         August 28, 2019
+# Name of file:         translator.py 
+# Description:          Translator removes all white space and excess characters like
+#                       newlines, then parses based on syntax
 
 def read_source_code(filename):
     source_code = []
