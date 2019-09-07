@@ -104,7 +104,7 @@ def parse_source_into_functions(source_code):
                 
             else:
                 # Nested statement
-                statements = statements + keyword
+                statements = statements + " " + keyword
                 
     return function_list
 
