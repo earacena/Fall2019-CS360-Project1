@@ -1,9 +1,10 @@
-# Project:              Translate source code to assembly (C++ to x86_64)
-# Author(s)/Group:      Emanuel Aracena
-# Date created:         August 28, 2019
-# Name of file:         translator.py 
-# Description:          Translator removes all white space and excess characters like
-#                       newlines, then parses based on syntax
+<<<<<<< HEAD
+# Project:      Translate source code to assembly (C++ to x86_64)
+# Author(s):    Emanuel Aracena   
+# Date created: August 28, 2019
+# Name of file: translator.py 
+# Description: Translator removes all white space and excess characters like
+#              newlines, then parses based on syntax
 
 class Function:
     def __init__(self, func_name, func_type, args, statements):
@@ -34,6 +35,15 @@ class LogicalOperation:
         self.operand1 = operator1
         self.op = operator
         self.operand2 = operand2
+=======
+# Project:              Translate source code to assembly (C++ to x86_64)
+# Author(s)/Group:      Emanuel Aracena
+# Date created:         August 28, 2019
+# Name of file:         translator.py 
+# Description:          Translator removes all white space and excess characters like
+#                       newlines, then parses based on syntax
+>>>>>>> bff1abd73e31aeebc5a5e6f446392b524718a516
+
         
 def read_source_code(filename):
     source_code = []
