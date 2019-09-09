@@ -19,23 +19,24 @@ class Declaration:
         self.address = address
         self.value = value
     
-class Statement:
-    def __init__(self, statement, conditional):
-        self.string = statement
-        self.conditional = conditional
-        
-class Operand:
-    def __init__(self, address):
-        self.addr = address
+# class Statement:
+#     def __init__(self, statement, conditional):
+#         self.string = statement
+#         self.conditional = conditional
 
+# class Operand:
+#     def __init__(self, address):
+#         self.addr = address
         
 class LogicalOperation:
     def __init__(self, destination, operand1, operator, operand2):
         self.dest = destination
-        self.operand1 = operator1
+        self.operand1 = operand1
         self.op = operator
         self.operand2 = operand2
 
+    def print_asm():
+        print("")
         
 def read_source_code(filename):
     source_code = []
@@ -108,6 +109,44 @@ def parse_source_into_functions(source_code):
                 
     return function_list
 
+# Parse functions into their respective classes
+def process_statements(statements):
+    statements_split = statements.split(";")
+    statement_list = []
+    for statement in statements_split:
+        if "int" in statement:
+            # Declaration
+            if "="  in statement:
+                op = Declaration(statement.split(" ")[0], statement.split(" ")[1],
+                                 statement.split(" ")[3])
+            else:
+                # same as int x;
+                op = Declaration(statement.split(" ")[0], statement.split(" ")[1], "none")
+        elif "-" in statement:
+            # Logical operation
+            # a = a + c
+            print("CALLED: " + statement )
+            op = LogicalOperation(statement.split(" ")[0], statement.split(" ")[2],
+                                  statement.split(" ")[3], statement.split(" ")[1])
+            #
+        else:
+            op = "not processed"
+        statement_list.append(op)
+    return statement_list
+
+# Make note of arguments and their addresses
+# return: number of arguments
+def process_arguments(arguments):
+    return
+
+# Translate function into assembly
+# post: print assembly
+def process_function(function):
+    print(function.name + ":")
+    arguments = process_arguments(function.args)
+    statements = process_statements(function.statements)
+
+# Return list containing parsed functions
 def print_function_list(function_list):
     for function in function_list:
         print(function.type)
@@ -126,6 +165,9 @@ def main():
 
     function_list = parse_source_into_functions(source)
     print_function_list(function_list)
+
+    for function in function_list:
+        process_function(function)
 
 if __name__ == "__main__":
     main()
