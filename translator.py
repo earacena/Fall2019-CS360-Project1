@@ -9,7 +9,7 @@
 class Function:
     def __init__(self, func_name, func_type, args, statements):
         self.name = func_name
-        self.type = func_type
+        self.type = func_type 
         self.args = args
         self.statements = statements
 
