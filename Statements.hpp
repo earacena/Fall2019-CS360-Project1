@@ -7,11 +7,13 @@
 #include <string>
 #include "Declaration.hpp"
 #include "LogicOperation.hpp"
+#include "ForLoop.hpp"
 
 struct Statements {
   std::string type;
-  Declaration dec_ptr;
-  LogicOperation lo_ptr;
+  Declaration dec_instr;
+  LogicOperation lo_instr;
+  ForLoop for_instr;
   struct Statements* next = nullptr;
 };
 

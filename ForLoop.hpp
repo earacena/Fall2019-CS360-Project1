@@ -6,7 +6,7 @@
 
 #include "Declaration.hpp"
 #include "LogicOperation.hpp"
-#include "Statements.hpp"
+#include "ForStatements.hpp"
 
 class ForLoop {
  public:
@@ -16,13 +16,13 @@ class ForLoop {
           Declaration init,
           const std::string& term,
           LogicOperation inc,
-          Statements statement);
+          struct ForStatements statement);
 
   std::string code_type;
   Declaration initialization;
   std::string termination;
   LogicOperation increment;
-  struct Statements statements;
+  struct ForStatements* statements;
 };
 
 #endif

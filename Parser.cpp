@@ -54,10 +54,10 @@ LogicOperation read_logic(const std::string& line) {
     } else {
       i = i + 1;
     }
-
-    LogicOperation new_logicop("logicOperation", words[0], words[1], words[2], words[3]);
-
-    return new_logicop;
   }
+
+  LogicOperation new_logicop("logicOperation", words[0], words[1], words[2], words[3]);
+  
+  return new_logicop;
 }
 
