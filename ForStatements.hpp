@@ -14,6 +14,7 @@
 
 struct ForStatements {
   std::string type;
+  std::string instr;
   Declaration dec_instr;
   LogicOperation lo_instr;
   struct ForStatements* next = nullptr;

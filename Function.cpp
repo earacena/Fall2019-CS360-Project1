@@ -5,9 +5,8 @@
 
 Function::Function() {}
 
-Function::Function(const std::string& returntype,
-                   const std::string& functionname,
-                   std::pair<std::string, std::string> param,
+Function::Function(const std::string& returntype, const std::string& functionname,
+                   const std::tuple<std::string, std::string, std::string, int>& param,
                    const struct Statements& instr) {
 
   return_type = returntype;

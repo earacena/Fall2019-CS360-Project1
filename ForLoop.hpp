@@ -22,7 +22,7 @@ class ForLoop {
   Declaration initialization;
   std::string termination;
   LogicOperation increment;
-  struct ForStatements* statements;
+  struct ForStatements statements;
 };
 
 #endif

@@ -5,8 +5,10 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <tuple>
 
-//#include "Parser.hpp"
+#include "Parser.hpp"
+#include "Function.hpp"
 
 void print_splash_screen() {
   std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
@@ -43,7 +45,38 @@ void start_process() {
   for (std::string line : source)
     std::cout << ".  "  << line << std::endl;
 
-  std::cout << "\n";
+  // Start Parser
+  Parser parser(source);
+
+  // Parse source code
+  // Python version in comments:
+  // head = read_head(source[0])
+  std::vector<std::string> head = parser.read_head(parser.source[0]);
+
+  Function function;
+  // functionClass["returnType"] = head[0]
+  function.return_type = head[0];
+  
+  // functionClass["functionName"] = head[1]
+  function.function_name = head[1];
+
+  // functionClass["parameter"] = {
+  //     "type": head[2],
+  //     "name": head[3],
+  //     "codeType": "declaration",
+  //     "address": -(declaration*4)
+  // }
+  function.parameter = std::make_tuple(head[2], head[3], "declaration",
+                                       (-4 * parser.num_of_declarations));
+  // # ignore the first line
+  // functionClass["instruction"] = read_instruction(1, source)["statement"]
+
+  //auto instructions = parser.read_instruction(1, parser.source);
+  //function.instructions = instructions.statements;
+  
+  // final_result = json.dumps(functionClass, indent=4)
+  // print(final_result)
+  
 }
 
 int main() {

@@ -3,7 +3,7 @@
 #ifndef FUNCTION_HPP
 #define FUNCTION_HPP
 
-#include <utility>
+#include <tuple>
 #include <string>
 
 #include "Statements.hpp"
@@ -14,12 +14,13 @@ class Function {
 
   Function(const std::string& returntype,
            const std::string& functionname,
-           std::pair<std::string, std::string> param,
+           const std::tuple<std::string, std::string, std::string, int>& param,
            const struct Statements& instr);
   
   std::string return_type;
   std::string function_name;
-  std::pair<std::string, std::string> parameter; // type, name
+  // type, name, codeType, addr
+  std::tuple<std::string, std::string, std::string, int> parameter;
   struct Statements instructions;
 };
 

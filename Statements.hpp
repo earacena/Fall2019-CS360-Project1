@@ -10,7 +10,11 @@
 #include "ForLoop.hpp"
 
 struct Statements {
-  std::string type;
+  std::string type = "";
+
+  // return statements
+  std::string instr;
+  
   Declaration dec_instr;
   LogicOperation lo_instr;
   ForLoop for_instr;
