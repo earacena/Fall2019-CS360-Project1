@@ -71,8 +71,8 @@ void start_process() {
   // # ignore the first line
   // functionClass["instruction"] = read_instruction(1, source)["statement"]
 
-  //auto instructions = parser.read_instruction(1, parser.source);
-  //function.instructions = instructions.statements;
+  auto instructions = parser.read_instruction(1, parser.source);
+  function.instructions = instructions.second;
   
   // final_result = json.dumps(functionClass, indent=4)
   // print(final_result)
