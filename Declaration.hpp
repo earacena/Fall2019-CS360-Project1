@@ -5,6 +5,7 @@
 #ifndef DECLARATION_HPP
 #define DECLARATION_HPP
 
+#include <iostream>
 #include <string>
 
 class Declaration {
@@ -16,6 +17,8 @@ class Declaration {
               const std::string& dataname,
               int datavalue,
               int addr);
+
+  void print();
   
   std::string code_type;
   std::string data_type;

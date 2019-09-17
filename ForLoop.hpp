@@ -18,6 +18,8 @@ class ForLoop {
           LogicOperation inc,
           struct ForStatements statement);
 
+  void print();
+  
   std::string code_type;
   Declaration initialization;
   std::string termination;

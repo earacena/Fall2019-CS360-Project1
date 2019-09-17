@@ -32,6 +32,27 @@ std::vector<std::string> Parser::split(std::string str, const std::string& delim
   return split_words;
 }
 
+void Parser::print_parsed_source() {
+  std::cout << "... SOURCE CODE IN PARSED FORMAT";
+  Statements* current = nullptr;
+  for (Function function : parsed_source) {
+    current = &function.instructions;
+    while(current != nullptr) {
+      if (current->type == "declaration")
+        current->dec_instr.print();
+      else if (current->type == "logic")
+        current->lo_instr.print();
+      else if (current->type == "for" )
+        current->for_instr.print();
+      else if (current->type == "return") 
+        std::cout << "..\tINSTRUCTION: " <<  current->instr << std::endl;
+
+      current = current->next;
+    }
+  }
+    
+}
+
 std::vector<std::string> Parser::read_head(const std::string& line) {
   std::vector<std::string> words {"", "", "", ""};
   int i = 0;

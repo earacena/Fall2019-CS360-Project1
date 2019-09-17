@@ -14,4 +14,10 @@ LogicOperation::LogicOperation(const std::string& codetype,
   operand2 = oprnd2;
 }
 
-    
+void LogicOperation::print() {
+  std::cout << "..\tCode type: " << code_type << std::endl;
+  std::cout << "..\tDestination: " << destination << std::endl;
+  std::cout << "..\tOperand1: " << operand1 << std::endl;
+  std::cout << "..\tOperator: " << operation << std::endl;
+  std::cout << "..\tOperand2: " << operand2 << std::endl;
+}

@@ -73,7 +73,10 @@ void start_process() {
 
   auto instructions = parser.read_instruction(1, parser.source);
   function.instructions = instructions.second;
-  
+
+  // Store what we parse
+  parser.parsed_source.push_back(function);
+  parser.print_parsed_source();
   // final_result = json.dumps(functionClass, indent=4)
   // print(final_result)
   

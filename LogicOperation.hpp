@@ -4,6 +4,7 @@
 #ifndef LOGICALOPERATION_HPP
 #define LOGICALOPERATION_HPP
 
+#include <iostream>
 #include <string>
 
 class LogicOperation {
@@ -16,6 +17,8 @@ class LogicOperation {
                  const std::string& op,
                  const std::string& oprnd2);
 
+  void print();
+  
   std::string code_type;
   std::string destination;
   std::string operand1;
