@@ -6,7 +6,7 @@ ForLoop::ForLoop(const std::string& codetype,
                  Declaration init,
                  const std::string& term,
                  LogicOperation inc,
-                 Statements statement) {
+                 ForStatements statement) {
   code_type = codetype;
   initialization = init;
   termination = term;
