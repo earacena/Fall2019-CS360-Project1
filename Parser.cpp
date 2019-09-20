@@ -9,12 +9,6 @@ Parser::Parser(const std::vector<std::string>& source_code) {
   source = source_code;
 }
 
-bool Parser::startswith(const std::string& line, const std::string& keyword) {
-  std::string trim_line = line;
-  trim_line = trim_line.substr(0, trim_line.find(' '));
-  return keyword == trim_line;
-}
-
 std::vector<std::string> Parser::split(std::string str, const std::string& delimiter) {
   std::vector<std::string> split_words;
   std::string token;
@@ -30,7 +24,7 @@ std::vector<std::string> Parser::split(std::string str, const std::string& delim
 }
 
 void Parser::print_parsed_source() {
-  std::cout << "... SOURCE CODE IN PARSED FORMAT";
+  std::cout << "...\n... SOURCE CODE IN PARSED FORMAT ...\n";
   Statements* current = nullptr;
   for (Function function : parsed_source) {
     current = &function.instructions;
@@ -137,9 +131,17 @@ std::pair<int, Statements> Parser::read_instruction(size_t i, const std::vector<
 
     keyword = line.substr(0, line.find(' '));
 
+
+    if (keyword == "") {
+      ++i;
+      continue;
+    }
+      
+
+    
     if (keyword == "int") {
       // Append
-      std::cout << "DECLARATION DETECTED ("<< keyword <<"), processing...\n";
+      std::cout << ". DECLARATION DETECTED ("<< keyword <<"), processing...\n";
       current->type = "declaration";
       current->dec_instr = read_declaration(line);
       current->next = new Statements;
@@ -147,7 +149,7 @@ std::pair<int, Statements> Parser::read_instruction(size_t i, const std::vector<
       i = i + 1;
       
     } else if (keyword == "for") {
-      std::cout << "FOR LOOP DETECTED ("<< keyword <<"), processing...\n";
+      std::cout << ". FOR LOOP DETECTED ("<< keyword <<"), processing...\n";
       current->type = "for";
       auto result = read_for_loop(i, segment);
       current->for_instr = result.second;
@@ -156,13 +158,13 @@ std::pair<int, Statements> Parser::read_instruction(size_t i, const std::vector<
       i = result.first;
       
     } else if (keyword == "return") {
-      std::cout << "RETURN DETECTED"<< keyword <<", processing...\n";
+      std::cout << ". RETURN DETECTED ("<< keyword <<"), processing...\n";
       current->type = "return";
       current->instr = line;
       current->next = new Statements;
       break;
     } else {
-      std::cout << "LOGIC DETECTED("<< keyword <<"), processing...\n";
+      std::cout << ". LOGIC DETECTED ("<< keyword <<"), processing...\n";
       current->type = "logic";
       current->lo_instr = read_logic(line);
       current->next = new Statements;
@@ -177,14 +179,26 @@ std::pair<int, Statements> Parser::read_instruction(size_t i, const std::vector<
 std::pair<int, ForStatements> Parser::read_instruction_for_loop(size_t i, const std::vector<std::string>& segment) {
   ForStatements instruction;
   ForStatements* current = &instruction;
-  std::string line;
+  std::string line = "";
+  std::string keyword = "";
   while (i < segment.size()) {
     line = segment[i];
 
     if (line == "}")
       break;
 
-    if (startswith(line, "int")) {
+    // Remove tab or whitespace 
+    while(line[0] == ' ' || line[0] == '\t')
+    	line = line.substr(1);      
+    
+    keyword = line.substr(0, line.find(' '));
+
+    if (keyword == "") {
+      ++i;
+      continue;
+    }
+      
+    if (keyword == "int") {
       // Append
       current->type = "declaration";
       current->dec_instr = read_declaration(line);
@@ -204,7 +218,7 @@ std::pair<int, ForStatements> Parser::read_instruction_for_loop(size_t i, const 
     //current = current->next;
     //i = result.first;  
     //}
-    else if (startswith(line, "return")) {
+    else if (keyword == "return") {
       current->type = "return";
       current->instr = line;
       current->next = new ForStatements;

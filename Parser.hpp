@@ -20,7 +20,6 @@ class Parser {
   Parser(const std::vector<std::string>& source_code);
 
   // Helper functions
-  bool startswith(const std::string& line, const std::string& keyword);
   std::vector<std::string> split(std::string str, const std::string& delimiter);
   void print_parsed_source();
   

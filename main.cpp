@@ -45,6 +45,8 @@ void start_process() {
   for (std::string line : source)
     std::cout << ".  "  << line << std::endl;
 
+  std::cout << ".\n.\n";
+  
   // Start Parser
   Parser parser(source);
 
