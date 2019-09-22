@@ -9,19 +9,19 @@
 #include "Statements.hpp"
 
 class Function {
- public:
-  Function();
-
-  Function(const std::string& returntype,
-           const std::string& functionname,
-           const std::tuple<std::string, std::string, std::string, int>& param,
-           const struct Statements& instr);
-  
-  std::string return_type;
-  std::string function_name;
-  // type, name, codeType, addr
-  std::tuple<std::string, std::string, std::string, int> parameter;
-  struct Statements instructions;
+public:
+    Function();
+    
+    Function(const std::string& returntype,
+             const std::string& functionname,
+             const std::tuple<std::string, std::string, std::string, int>& param,
+             const struct Statements& instr);
+    
+    std::string return_type;
+    std::string function_name;
+    // type, name, codeType, addr
+    std::tuple<std::string, std::string, std::string, int> parameter;
+    struct Statements instructions;
 };
 
 #endif
