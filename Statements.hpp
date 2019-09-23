@@ -13,7 +13,7 @@ struct Statements {
   std::string type = "";
 
   // return statements
-  std::string instr;
+  std::string instr = "";
   
   Declaration dec_instr;
   LogicOperation lo_instr;

@@ -34,8 +34,10 @@ class Parser {
   
 
   std::vector<std::string> source;
+  // This will contain the block of lines for every function
+  std::vector< std::vector<std::string> > source_functions;
   std::vector<Function> parsed_source;
-  int num_of_declarations;
+  int num_of_declarations = 0;
   
 };
 

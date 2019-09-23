@@ -7,6 +7,7 @@ Parser::Parser() { }
 
 Parser::Parser(const std::vector<std::string>& source_code) {
   source = source_code;
+  parsed_source.reserve(20);
 }
 
 std::vector<std::string> Parser::split(std::string str, const std::string& delimiter) {
@@ -28,7 +29,15 @@ void Parser::print_parsed_source() {
   Statements* current = nullptr;
   for (Function function : parsed_source) {
     current = &function.instructions;
+    std::cout << "....\n";
+    std::cout << ".... Function name: " << function.function_name << std::endl;
+    std::cout << ".... Return type: " << function.return_type << std::endl;
+    std::cout << ".... Parameters: {" << std::get<0>(function.parameter)
+              << ", " << std::get<1>(function.parameter)
+              << ", " << std::get<2>(function.parameter)
+              << ", " << std::get<3>(function.parameter) << "}\n";
     while(current != nullptr) {
+      std::cout << "...\n";
       if (current->type == "declaration")
         current->dec_instr.print();
       else if (current->type == "logic")
@@ -37,7 +46,7 @@ void Parser::print_parsed_source() {
         current->for_instr.print();
       else if (current->type == "return") 
         std::cout << "..\tINSTRUCTION: " <<  current->instr << std::endl;
-
+      std::cout << "...\n";
       current = current->next;
     }
   }
@@ -200,6 +209,7 @@ std::pair<int, ForStatements> Parser::read_instruction_for_loop(size_t i, const 
       
     if (keyword == "int") {
       // Append
+      std::cout << ". (for) DECLARATION DETECTED ("<< keyword <<"), processing...\n";
       current->type = "declaration";
       current->dec_instr = read_declaration(line);
       current->next = new ForStatements;
@@ -219,11 +229,13 @@ std::pair<int, ForStatements> Parser::read_instruction_for_loop(size_t i, const 
     //i = result.first;  
     //}
     else if (keyword == "return") {
+      std::cout << ". (for) RETURN DETECTED ("<< keyword <<"), processing...\n"; 
       current->type = "return";
       current->instr = line;
       current->next = new ForStatements;
       current = current->next;
     } else {
+      std::cout << ". (for) LOGIC DETECTED ("<< keyword <<"), processing...\n";
       current->type = "logic";
       current->lo_instr = read_logic(line);
       current->next = new ForStatements;
