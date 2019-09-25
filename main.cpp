@@ -75,7 +75,7 @@ void start_process() {
     } else if (contains(parser.source[i], "{")) {
       ++parenthesis_stack;
     }   
-    if (parser.source[i] == "}") {
+    if (contains(parser.source[i], "}")) {
       --parenthesis_stack;
       
       if (parenthesis_stack == 0) {

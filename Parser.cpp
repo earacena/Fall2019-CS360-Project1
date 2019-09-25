@@ -10,6 +10,13 @@ Parser::Parser(const std::vector<std::string>& source_code) {
   parsed_source.reserve(20);
 }
 
+// Helper functions
+// Checks if string contains keyword
+// Foward declaration
+bool contains(const std::string& str, const std::string& keyword);
+
+
+
 std::vector<std::string> Parser::split(std::string str, const std::string& delimiter) {
   std::vector<std::string> split_words;
   std::string token;
@@ -19,6 +26,9 @@ std::vector<std::string> Parser::split(std::string str, const std::string& delim
     split_words.push_back(token);
     str = str.substr(position + delimiter.length());
     position = str.find(delimiter);
+
+    if (position == std::string::npos)
+      split_words.push_back(str);
   }
 
   return split_words;
@@ -81,14 +91,13 @@ Declaration Parser::read_declaration(const std::string& line) {
   }
   num_of_declarations = num_of_declarations + 1;
   Declaration new_declaration("declaration", words[0], words[1], atoi(words[2].c_str()),
-                               (-4 * num_of_declarations));
-  
+                                 (-4 * num_of_declarations));
+   
   return new_declaration;
-  
 }
 
 LogicOperation Parser::read_logic(const std::string& line) {
-  std::vector<std::string> words {"", "", "", ""};
+  std::vector<std::string> words {"", "", "", "", ""};
   int i = 0;
   for (char ch : line) {
     if (ch == '+' || ch == '-' || ch == '/') {
@@ -109,8 +118,21 @@ LogicOperation Parser::read_logic(const std::string& line) {
 
 std::pair<int, ForLoop> Parser::read_for_loop(int i, const std::vector<std::string>& segment) {
   std::string line = segment[i];
-  std::vector<std::string> header = split(line.substr(3), ";");
 
+  std::cout << ". line: " << line << std::endl;
+  std::vector<std::string> header = split(line, ";");
+
+  std::cout << ". Checking ForLoop header..." << std::endl;
+  for (auto& str : header)
+    std::cout << ". " << str << std::endl; 
+ 
+  // clean up header
+  header[0] = header[0].substr(7);
+  header[2] = header[2].substr(0, 5);
+
+  for (auto& str : header)
+    std::cout << ". " << str << std::endl; 
+  
   ForLoop new_forloop;
   new_forloop.code_type = "for";
   new_forloop.initialization = read_declaration(header[0] + ";");
@@ -136,7 +158,7 @@ std::pair<int, Statements> Parser::read_instruction(size_t i, const std::vector<
 
     // Remove tab or whitespace 
     while(line[0] == ' ' || line[0] == '\t')
-    	line = line.substr(1);
+      line = line.substr(1);
 
     keyword = line.substr(0, line.find(' '));
 
@@ -192,16 +214,18 @@ std::pair<int, ForStatements> Parser::read_instruction_for_loop(size_t i, const 
   std::string keyword = "";
   while (i < segment.size()) {
     line = segment[i];
-
-    if (line == "}")
+    std::cout << ". i: " << i << std::endl;
+    std::cout << ". segement[i]: " << segment[i] << std::endl;
+    std::cout << ". segment size: " << segment.size() << std::endl; 
+    if (contains(line,  "}"))
       break;
 
     // Remove tab or whitespace 
     while(line[0] == ' ' || line[0] == '\t')
-    	line = line.substr(1);      
+      line = line.substr(1);      
     
     keyword = line.substr(0, line.find(' '));
-
+    
     if (keyword == "") {
       ++i;
       continue;
@@ -234,12 +258,14 @@ std::pair<int, ForStatements> Parser::read_instruction_for_loop(size_t i, const 
       current->instr = line;
       current->next = new ForStatements;
       current = current->next;
+      break;
     } else {
-      std::cout << ". (for) LOGIC DETECTED ("<< keyword <<"), processing...\n";
+      std::cout << ". (for) LOGIC DETECTED ("<< keyword <<") ("<< line <<"), processing...\n";
       current->type = "logic";
       current->lo_instr = read_logic(line);
       current->next = new ForStatements;
       current = current->next;
+      i = i + 1;
     }
   }
   return {i+1, instruction};

@@ -7,8 +7,11 @@ int f1 () {
 
 int main() {
   int a;
-  
-  a = 1;
+  a = 10;
+
+  for (int i=1;i<a;i=i+1){
+    i = i + 1;
+  }
   
   return 0;
 }
