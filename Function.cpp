@@ -8,9 +8,9 @@ Function::Function() {}
 Function::Function(const std::string& returntype, const std::string& functionname,
                    const std::tuple<std::string, std::string, std::string, int>& param,
                    const struct Statements& instr) {
-
-  return_type = returntype;
-  function_name = functionname;
-  parameter = param;
-  instructions = instr;
+    
+    return_type = returntype;
+    function_name = functionname;
+    parameter = param;
+    instructions = instr;
 }
