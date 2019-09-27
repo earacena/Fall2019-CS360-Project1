@@ -12,15 +12,12 @@
 #include "Declaration.hpp"
 #include "LogicOperation.hpp"
 
-
 struct ForStatements {
-    std::string type;
-    std::string instr;
-    Declaration dec_instr;
-    LogicOperation lo_instr;
-    //Assembly a_instr;
-    
-    struct ForStatements* next = nullptr;
+  std::string type = "";
+  std::string instr = "";
+  Declaration dec_instr;
+  LogicOperation lo_instr;
+  struct ForStatements* next = nullptr;
 };
 
 #endif // FORSTATEMENT_HPP
